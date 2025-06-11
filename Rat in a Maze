@@ -1,0 +1,46 @@
+class Solution {
+    public ArrayList<String> ratInMaze(int[][] maze) {
+        ArrayList<String> result = new ArrayList<>();
+        int n = maze.length;
+        if (maze[0][0] == 0 || maze[n-1][n-1] == 0) {
+            return result;
+        }
+        int[][] visited = new int[n][n];
+        solve(0, 0, maze, visited, "", result);
+        return result;
+    }
+    
+    private void solve(int row, int col, int[][] maze, int[][] visited, String path, ArrayList<String> result) {
+        int n = maze.length;
+        if (row == n - 1 && col == n - 1) {
+            result.add(path);
+            return;
+        }
+        
+        // Lexicographical order: D, L, R, U
+        // Down
+        if (row + 1 < n && visited[row+1][col] == 0 && maze[row+1][col] == 1) {
+            visited[row][col] = 1;
+            solve(row + 1, col, maze, visited, path + "D", result);
+            visited[row][col] = 0;
+        }
+        // Left
+        if (col - 1 >= 0 && visited[row][col-1] == 0 && maze[row][col-1] == 1) {
+            visited[row][col] = 1;
+            solve(row, col - 1, maze, visited, path + "L", result);
+            visited[row][col] = 0;
+        }
+        // Right
+        if (col + 1 < n && visited[row][col+1] == 0 && maze[row][col+1] == 1) {
+            visited[row][col] = 1;
+            solve(row, col + 1, maze, visited, path + "R", result);
+            visited[row][col] = 0;
+        }
+        // Up
+        if (row - 1 >= 0 && visited[row-1][col] == 0 && maze[row-1][col] == 1) {
+            visited[row][col] = 1;
+            solve(row - 1, col, maze, visited, path + "U", result);
+            visited[row][col] = 0;
+        }
+    }
+}
