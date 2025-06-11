@@ -1,0 +1,38 @@
+// User function Template for Java
+
+class Solution {
+    static ArrayList<ArrayList<String>> allPalindromicPerms(String S) {
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        backtrack(S, 0, new ArrayList<>(), result);
+        return result;
+    }
+    
+    private static void backtrack(String s, int start, ArrayList<String> current, ArrayList<ArrayList<String>> result) {
+        if (start == s.length()) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+        
+        for (int end = start + 1; end <= s.length(); end++) {
+            String substring = s.substring(start, end);
+            if (isPalindrome(substring)) {
+                current.add(substring);
+                backtrack(s, end, current, result);
+                current.remove(current.size() - 1);
+            }
+        }
+    }
+    
+    private static boolean isPalindrome(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
