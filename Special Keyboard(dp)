@@ -1,0 +1,21 @@
+class Solution {
+    static int optimalKeys(int N) {
+        if (N <= 6) {
+            return N;
+        }
+        int[] dp = new int[N + 1];
+        for (int i = 1; i <= 6; i++) {
+            dp[i] = i;
+        }
+        for (int i = 7; i <= N; i++) {
+            dp[i] = i; // default is pressing A i times
+            for (int j = i - 3; j >= 1; j--) {
+                int current = dp[j] * (i - j - 1);
+                if (current > dp[i]) {
+                    dp[i] = current;
+                }
+            }
+        }
+        return dp[N];
+    }
+}
